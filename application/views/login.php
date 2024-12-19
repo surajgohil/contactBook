@@ -31,36 +31,36 @@
 <body>
     <div class="container">
         <div class="signup-form">
-            <h2 class="text-center">Sign Up</h2>
-            <form id="signupForm">
-                <div class="mb-3">
+            <h2 class="text-center">Sign In</h2>
+            <form id="loginInForm">
+                <!-- <div class="mb-3">
                     <label for="name" class="form-label">First Name</label>
                     <input type="text" class="form-control" id="name" name="firstName" placeholder="Enter your first name" required>
                 </div>
                 <div class="mb-3">
                     <label for="name" class="form-label">Last Name</label>
                     <input type="text" class="form-control" id="name" name="lastName" placeholder="Enter your last name" required>
-                </div>
+                </div> -->
                 <div class="mb-3">
                     <label for="email" class="form-label">Email address</label>
                     <input type="email" class="form-control" id="email" name="email" placeholder="Enter your email" required>
                 </div>
-                <div class="mb-3">
+                <!-- <div class="mb-3">
                     <label for="email" class="form-label">Mobile Number</label>
                     <input type="number" class="form-control" id="mobileNumber" name="number" placeholder="Enter your number" required>
-                </div>
+                </div> -->
                 <div class="mb-3">
                     <label for="password" class="form-label">Password</label>
                     <input type="password" class="form-control" id="password" name="password" placeholder="Create a password" required>
                 </div>
-                <div class="mb-3">
+                <!-- <div class="mb-3">
                     <label for="confirmPassword" class="form-label">Confirm Password</label>
                     <input type="password" class="form-control" id="confirmPassword" name="confirmPassword" placeholder="Confirm your password" required>
-                </div>
-                <button type="submit" class="btn btn-primary w-100">Sign Up</button>
+                </div> -->
+                <button type="submit" class="btn btn-primary w-100">Sign In</button>
                 Have an account?
-                <a href="signIn" class="text-decoration-none">
-                    Sign In
+                <a href="signUp" class="text-decoration-none">
+                    Sign Up.
                     <i class="fa fa-external-link" aria-hidden="true"></i>
                 </a>
             </form>
@@ -74,22 +74,16 @@
 
     <script>
         $(document).ready(function () {
-            $('#signupForm').on('submit', function(e) {
+            $('#loginInForm').on('submit', function(e) {
                 e.preventDefault();
 
                 let form = new FormData(this);
                 let password = $('#password').val();
-                let confirmPassword = $('#confirmPassword').val();
-
-                if (password !== confirmPassword) {
-                    alert('Passwords do not match!');
-                    return;
-                }
 
                 $('.displayError').remove();
 
                 $.ajax({
-                    url  : '<?= base_url("UserAction/signUp") ?>',
+                    url  : '<?= base_url("UserAction/login") ?>',
                     type : 'POST',
                     data : form,
                     contentType: false,
@@ -108,7 +102,7 @@
                         }
 
                         if(response.status === 1){
-                            window.location.href = "<?= base_url('signIn'); ?>";
+                            window.location.href = "<?= base_url('Dashboard'); ?>";
                         }
                     }
                 });

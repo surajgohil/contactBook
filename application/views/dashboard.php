@@ -1,30 +1,4 @@
-<style>
-    .dt-length > label,
-    .dt-search > label{
-        font-size: var(--mdc-typography-subtitle2-font-size, 0.875rem) !important;
-        font-family: var(--mdc-typography-subtitle2-font-family, var(--mdc-typography-font-family, Roboto, sans-serif)) !important;
-        font-weight: 100 !important;
-    }
-    .dt-length > label{
-        margin-left: 5px;
-    }
-    .dt-search > #dt-search-0{
-        background-color: #ffffff !important;
-        border: 1px solid #767676 !important;
-    }
-    .mdc-button--raised{
-        background-color: #0d6efd !important;
-        color:rgb(255, 255, 255) !important;
-    }
-    /* .mdc-button {
-        color: #0d6efd;
-    } */
 
-    /* .mdc-button:not(:disabled) {
-        color: #0d6efd !important;
-        color: var(--mdc-text-button-label-text-color, var(--mdc-theme-primary, #0d6efd)) !important;
-    } */
-</style>
 <div class="content-wrapper">
     <!-- <div class="content-header">
         <div class="container-fluid">
@@ -36,8 +10,8 @@
         </div>
     </div> -->
 
-    <section class="content">   
-        <table id="contactNumberListing" class="display mdl-data-table" style="width:100%">
+    <section class="content" style="width:97% !important; margin: auto; margin-top: 20px;">
+        <table id="contactNumberListing" class="table-striped table-bordered">
             <thead>
                 <tr>
                     <th>First Name</th>

@@ -17,10 +17,12 @@ class ProjectModel extends CI_Model {
         }
 
         if(!empty($likeValue)){
+            $this->db->group_start();
             $this->db->like('first_name', $likeValue);
             $this->db->or_like('last_name', $likeValue);
             $this->db->or_like('email', $likeValue);
             $this->db->or_like('number', $likeValue);
+            $this->db->group_end();
         }
 
         if (!empty($orderBy)) {

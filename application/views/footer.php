@@ -12,16 +12,16 @@
                 <form id="addContactForm">
                     <div class="modal-body" style="display: flex; flex-direction: column;">
                         <label for="first_name">First Name</label>
-                        <input type="text" id="first_name" name="firstName" required>
+                        <input type="text" class="form-control" id="first_name" name="firstName" required>
 
                         <label for="last_name">Last Name</label>
-                        <input type="text" id="last_name" name="lastName" required>
+                        <input type="text" class="form-control" id="last_name" name="lastName" required>
 
                         <label for="email">Email</label>
-                        <input type="email" id="email" name="email" required>
+                        <input type="email" class="form-control" id="email" name="email" required>
 
                         <label for="number">Phone Number</label>
-                        <input type="tel" id="number" name="number" required>
+                        <input type="tel" class="form-control" id="number" name="number" required>
                     </div>
                     <div class="modal-footer">
                         <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
@@ -90,7 +90,7 @@
             });
 
             let table = new DataTable('#contactNumberListing', {
-                "processing": true,
+                "processing": false,
                 "serverSide": true,
                 "ajax": {
                     "url": "<?php echo base_url('Dashboard/contactListing'); ?>",
@@ -100,14 +100,23 @@
                         d.length = d.length;
                         d.draw = d.draw;
                         d.search_value = d.search.value;
+                        d.order_column = d.columns[d.order[0].column].data;
+                        d.order_dir = d.order[0].dir;
                     },
+                    "dataSrc": function (json) {
+                        if (json.data.length === 0) {
+                            $('#contactNumberListing').find('tbody').html('<tr><td colspan="5" class="text-center" style="height:340px;">No data available in table.</td></tr>');
+                        } else {
+                            return json.data;
+                        }
+                    }
                 },
                 "columns": [
-                    { "data": "First Name" },
-                    { "data": "Last Name" },
-                    { "data": "Email" },
-                    { "data": "Number" },
-                    { "data": "Action" }
+                    { "data": "first_name" },
+                    { "data": "last_name" },
+                    { "data": "email" },
+                    { "data": "number" },
+                    { "data": "action" }
                 ],
                 "scrollX": true,
                 "scrollY": '350px',
@@ -122,6 +131,20 @@
                 if(userId > 0){
                     table.ajax.reload();
                 }
+            });
+
+
+            $('#logOut').on('click', function(){
+                $.ajax({
+                    url  : '<?= base_url("UserAction/redirectToLogOut") ?>',
+                    type : 'POST',
+                    success : function(response){
+                        let data = JSON.parse(response);
+                        if(data.status == 1){
+                            window.location.href = "<?= base_url('signIn'); ?>";
+                        }
+                    }
+                });
             });
         });
 

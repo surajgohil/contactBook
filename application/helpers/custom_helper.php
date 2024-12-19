@@ -1,6 +1,6 @@
 <?php
 
-function renderUserContact($offset = 0, $length = 10, $likeValue = ''){
+function renderUserContact($offset = 0, $length = 10, $likeValue = '', $orderBy = []){
 
     $CI =& get_instance();
 
@@ -9,7 +9,7 @@ function renderUserContact($offset = 0, $length = 10, $likeValue = ''){
         'usernumbers',
         '*',
         ['rel_id' => $CI->session->userdata('id')],
-        ['id', 'DESC'],
+        $orderBy,
         $length,
         $offset,
         $likeValue

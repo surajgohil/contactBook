@@ -10,26 +10,22 @@
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" rel="stylesheet">
 
 
-    <!-- Material Components Web CSS -->
-    <link href="https://cdnjs.cloudflare.com/ajax/libs/material-components-web/14.0.0/material-components-web.min.css" rel="stylesheet">
 
-    <!-- DataTables Material Design integration CSS -->
-    <link href="https://cdn.datatables.net/2.1.8/css/dataTables.material.css" rel="stylesheet">
-    <!-- jQuery 3.7.1 -->
-    <script src="https://code.jquery.com/jquery-3.7.1.js"></script>
 
-    <!-- Material Components Web JS -->
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/material-components-web/14.0.0/material-components-web.min.js"></script>
+<!-- Bootstrap CSS -->
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.5.2/css/bootstrap.css">
+    <!-- DataTables Bootstrap 4 CSS -->
+    <link rel="stylesheet" href="https://cdn.datatables.net/2.1.8/css/dataTables.bootstrap4.css">
 
+<!-- jQuery -->
+<script src="https://code.jquery.com/jquery-3.7.1.js"></script>
+    <!-- Popper.js -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js"></script>
+    <!-- Bootstrap JS -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.5.2/js/bootstrap.min.js"></script>
     <!-- DataTables JS -->
     <script src="https://cdn.datatables.net/2.1.8/js/dataTables.js"></script>
-
-    <!-- DataTables Material Design integration JS -->
-    <script src="https://cdn.datatables.net/2.1.8/js/dataTables.material.js"></script>
-
-
-
-
+    <script src="https://cdn.datatables.net/2.1.8/js/dataTables.bootstrap4.js"></script>
 
     <style>
         body {
@@ -141,9 +137,14 @@
         <!-- Sidebar -->
         <aside class="main-sidebar sidebar-dark-primary elevation-4">
             <!-- Brand Logo -->
-            <a href="#" class="brand-link">
-                <span class="brand-text font-weight-light"><?= $this->session->userdata('first_name').' '.$this->session->userdata('last_name'); ?></span>
-            </a>
+            <div href="#" class="brand-link d-flex justify-content-between align-items-center" style="height: 10%;">
+                <div class="brand-text font-weight-light">
+                    <?= $this->session->userdata('first_name').' '.$this->session->userdata('last_name'); ?>
+                </div>
+                <div class="btn btn-danger d-flex justify-content-center align-items-center h-100" id="logOut">
+                    <span><i class="fas fa-sign-out"></i></span>
+                </div>
+            </div>
 
             <!-- Sidebar -->
             <div class="sidebar sidebar-expanded">
