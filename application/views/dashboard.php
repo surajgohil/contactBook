@@ -8,13 +8,15 @@
             </a>
         </li>
         <li class="nav-item options">
-            <button class="btn btn-danger deleteMultipleContacts">Delete</button>
-            <button class="btn btn-info">Create Group</button>
+            <button class="btn btn-danger deleteMultipleContacts" disabled>Delete All</button>
+            <!-- <button class="btn btn-info"></button> -->
+            <!-- Button trigger modal -->
+            <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#groupModal">Create Group</button>
         </li>
         <li class="nav-item">
             <!-- <div><i class="fa-solid fa-plus"></i></div>
             <div><label class="pt-1">Add New</label></div> -->
-            <button class="btn btn-primary" type="button" data-toggle="modal" data-target="#addNew">
+            <button class="btn btn-primary addContactBtn" type="button" data-toggle="modal" data-target="#addNew">
                 <i class="fa-solid fa-plus"></i>
                 <label class="addNewBtn">Add New</label>
             </button>
@@ -38,13 +40,13 @@
     <div class="sidebar sidebar-expanded">
         <!-- Sidebar Menu -->
         <nav class="mt-2">
-            <ul class="nav nav-pills nav-sidebar flex-column" data-widget="treeview" role="menu">
-                <li class="nav-item">
+            <ul id="navbarMenu" class="nav nav-pills nav-sidebar flex-column" data-widget="treeview" role="menu">
+                <!-- <li class="nav-item">
                     <a href="#" class="nav-link">
                         <i class="nav-icon fas fa-tachometer-alt"></i>
                         <p>Dashboard</p>
                     </a>
-                </li>
+                </li> -->
                 <!-- Add more sidebar items as needed -->
             </ul>
         </nav>
@@ -68,7 +70,7 @@
             <table id="contactNumberListing" class="table-striped table-bordered">
                 <thead>
                     <tr>
-                        <th>Select Rows</th>
+                        <th></th>
                         <th>First Name</th>
                         <th>Last Name</th>
                         <th>Email</th>

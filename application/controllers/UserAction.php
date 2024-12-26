@@ -23,11 +23,25 @@ class UserAction extends CI_Controller {
     }
 
     public function redirectToLogin(){
-        $this->load->view('login');
+        $userId = $this->session->userdata('id');
+        if($userId > 0){
+            $this->load->view('header');
+            $this->load->view('dashboard');
+            $this->load->view('footer');
+        }else{
+            $this->load->view('login');
+        }
     }
     
     public function redirectToSignUp(){
-        $this->load->view('signUp');
+        $userId = $this->session->userdata('id');
+        if($userId > 0){
+            $this->load->view('header');
+            $this->load->view('dashboard');
+            $this->load->view('footer');
+        }else{
+            $this->load->view('signUp');
+        }
     }
 
     public function redirectToLogOut(){

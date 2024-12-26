@@ -8,9 +8,13 @@ class ProjectModel extends CI_Model {
         return $this->db->insert($tableName, $data);
     }
 
-    public function selectData($isSingle = 0, $tableName, $column = '*', $where = [], $orderBy = [], $limit = null, $offset = null, $likeValue = '') {
+    public function selectData($isSingle = 0, $tableName, $column = '*', $where = [], $orderBy = [], $limit = null, $offset = null, $likeValue = '', $joinTable = []) {
 
         $this->db->select($column)->from($tableName);
+
+        if(!empty($joinTable)){
+            $this->db->join($joinTable['tableName'], $joinTable['on'], $joinTable['type']);
+        }
 
         if (!empty($where)) {
             $this->db->where($where);

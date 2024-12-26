@@ -1,11 +1,37 @@
-
+       
+        <!-- Modal -->
+        <div class="modal fade" id="groupModal" tabindex="-1" role="dialog" aria-labelledby="groupModalTitle" aria-hidden="true">
+            <div class="modal-dialog modal-dialog-centered" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title ml-auto" id="exampleModalLongTitle">Group Form</h5>
+                        <button type="button" class="close gropModelCloseBtn" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    <form id="groupForm">
+                        <div class="modal-body">
+                            <label>Group Name</label>
+                            <input type="text" class="form-control" id="groupName" name="groupName" required>
+                        </div>
+                        <div class="modal-footer d-flex justify-content-between">
+                            <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                            <button type="submit" class="btn btn-primary">Save</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+        
+        
+        
         <!-- Modal -->
         <div class="modal fade" id="addNew" tabindex="-1" role="dialog" aria-labelledby="addNewTitle" aria-hidden="true">
             <div class="modal-dialog modal-dialog-centered" role="document">
                 <div class="modal-content">
                 <div class="modal-header">
-                    <h5 class="modal-title ml-auto" id="exampleModalLongTitle">Add Contact</h5>
-                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <h5 class="modal-title ml-auto" id="exampleModalLongTitle">Contact Form</h5>
+                    <button type="button" class="close closeModalBtn" data-dismiss="modal" aria-label="Close">
                     <span aria-hidden="true">&times;</span>
                     </button>
                 </div>
@@ -18,13 +44,13 @@
                         <input type="text" class="form-control" id="last_name" name="lastName" required>
 
                         <label for="email">Email</label>
-                        <input type="email" class="form-control" id="email" name="email" required>
+                        <input type="email" class="form-control" id="email" name="email">
 
                         <label for="number">Phone Number</label>
                         <input type="tel" class="form-control" id="number" name="number" required>
                     </div>
-                    <div class="modal-footer">
-                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                    <div class="modal-footer d-flex justify-content-between">
+                        <button type="button" class="btn btn-secondary closeModalBtn" data-dismiss="modal">Close</button>
                         <button type="submit" class="btn btn-primary">Save changes</button>
                     </div>
                 </form>
@@ -47,6 +73,8 @@
     <script>
         $(document).ready(function () {
 
+            localStorage.removeItem('groupId');
+
             $("#sidebar").hover(function () {
                 // On hover
                 $(this).removeClass("sidebar-collapsed");
@@ -57,6 +85,7 @@
                 $(this).addClass("sidebar-collapsed");
             });
 
+            // Render table with dataTable.
             let table = new DataTable('#contactNumberListing', {
                 "processing": true,
                 "serverSide": true,
@@ -76,6 +105,11 @@
                         } else {
                             d.order_column = 'id';
                             d.order_dir = 'desc';
+                        }
+
+                        d.groupId = 0;
+                        if (localStorage.hasOwnProperty('groupId')) {
+                            d.groupId = localStorage.getItem('groupId');
                         }
                     },
                     "dataSrc": function (json) {
@@ -105,12 +139,13 @@
                         "className": "text-center"
                     },
                     {
-                        "targets": [5],
+                        "targets": [0,5],
                         "orderable": false
                     }
                 ]
             });
 
+            // Add and Edit contact.
             $('#addContactForm').on('submit', function(e) {
                 e.preventDefault();
 
@@ -118,6 +153,12 @@
 
                 $('.displayError').remove();
                 form.append('id', localStorage.getItem('editContactId'));
+
+                let groupId = 0;
+                if (localStorage.hasOwnProperty('groupId')) {
+                    groupId = localStorage.getItem('groupId')
+                }
+                form.append('groupId', groupId);
 
                 $.ajax({
                     url  : '<?= base_url("Dashboard/saveChanges") ?>',
@@ -140,12 +181,12 @@
                         if(response.status === 1){
                             $('#addNew').modal('hide');
                             table.ajax.reload();
-                            $('#addContactForm')[0].reset();
                         }
                     }
                 });
             });
 
+            // Delete contact.
             $(document).on('click', '.deleteContact', function(){
 
                 if(confirm('Confirm to delete this contact.')){
@@ -171,6 +212,7 @@
                 }
             });
 
+            // Get data for edit.
             $(document).on('click', '.editContact', function(){
 
                 let userId = $(this).attr('userid');
@@ -206,6 +248,7 @@
                 }
             });
 
+            // logout user.
             $('#logOut').on('click', function(){
                 $.ajax({
                     url  : '<?= base_url("UserAction/redirectToLogOut") ?>',
@@ -219,12 +262,14 @@
                 });
             });
 
-            $('.deleteMultipleContacts').on('click', function(){
+            // Submit form of delete all selected contact.
+            $('.deleteMultipleContacts').on('click', function(e){
                 if(confirm('Confirm to delete selected all contacts.')){
                     $('#selectContact').submit();
                 }
             });
 
+            // Delete all selected contact.
             $('#selectContact').on('submit', function(e){
                 e.preventDefault();
 
@@ -240,13 +285,119 @@
                         if(response.status === 1){
                             table.ajax.reload();
                             $('#selectContact')[0].reset();
+                            $('.deleteMultipleContacts').prop('disabled', true);
                         }
                     }
                 });
             });
-            
-            // if('.checkBox').on('click', function(){
-            // });
+
+            // Close model by open edit button.
+            $('.closeModalBtn').on('click', function(){
+               $('#addNew').modal('hide');
+            });
+
+            // Reset form.
+            $('.addContactBtn').on('click', function(){
+                $('#addContactForm')[0].reset();
+            });
+
+            // Group Form.
+            $('#groupForm').on('submit', function(e){
+                e.preventDefault();
+
+                $('#selectContact')[0].reset();
+                let form = new FormData(this);
+
+                $.ajax({
+                    url  : '<?= base_url("Dashboard/saveGroup") ?>',
+                    type : 'POST',
+                    data : form,
+                    contentType: false,
+                    processData : false,
+                    success : function(response) {
+                        response = JSON.parse(response);
+                        if(response.status === 3){
+                            $.each(response.data, function(key, value) {
+                                $(`[name="${key}"]`).after(`<span class="displayError text-danger">${value}</span>`);
+                            });
+                        }
+                        if(response.status === 1){
+                            groupListing();
+                        }
+                    }
+                });
+            });
+
+            $(document).on('click', '.checkBox', function() {
+                if ($('.checkBox:checked').length > 0) {
+                    $('.deleteMultipleContacts').prop('disabled', false);
+                } else {
+                    $('.deleteMultipleContacts').prop('disabled', true);
+                }
+            });
+
+            $(document).on('change', '.selectGroup', function(){
+
+                let numberId = $(this).attr('numberid');
+                let groupId = $(this).val();
+
+                if(numberId !== undefined && groupId !== undefined){
+                    $.ajax({
+                        url  : '<?= base_url("Dashboard/contactMoveToGroup") ?>',
+                        type : 'POST',
+                        data : {
+                            'numberId' : numberId,
+                            'groupId' : groupId
+                        },
+                        success : function(response) {
+                            response = JSON.parse(response);
+                            if(response.status === 1){
+                                table.ajax.reload();
+                            }
+                        }
+                    });
+                }
+            });
+
+            $(document).on('click', '#navbarMenu > li', function(){
+
+                let groupId = $(this).attr('groupId');
+                localStorage.setItem('groupId', groupId);
+                table.ajax.reload();
+                $('#navbarMenu > li > a').removeClass('bg-primary');
+                $(this).find('a').addClass('bg-primary');
+            });
+
+            groupListing();
+            function groupListing(){
+
+                $.ajax({
+                    url  : '<?= base_url("Dashboard/groupListing") ?>',
+                    type : 'POST',
+                    contentType: false,
+                    processData : false,
+                    success : function(response) {
+
+                        response = JSON.parse(response);
+
+                        if(response.status === 1){
+                            let html = '';
+                            $.each(response.data, function(key, value){
+
+                                html += `<li class="nav-item" groupId="${value.id}">
+                                                <a href="#" class="nav-link">
+                                                    <i class="fa-solid fa-user-group"></i>
+                                                    <p style="text-transform: capitalize;" >${value.name}</p>
+                                                </a>
+                                            </li>
+                                        `;
+                            });
+                            $('#navbarMenu').html(html);
+                            $('.gropModelCloseBtn').click();
+                        }
+                    }
+                });
+            }
         });
     </script>
 </body>

@@ -109,9 +109,26 @@
             height : 10% !important;
         }
     </style>
+
+    <style>
+        ::-webkit-scrollbar {
+            width: 10px;
+            height: 10px;
+        }
+        ::-webkit-scrollbar-track {
+            background: rgba(0, 0, 0, 0);
+            border-radius: 5px;
+        }
+        ::-webkit-scrollbar-thumb {
+            background: rgba(255, 255, 255, 0);
+            border-radius: 5px;
+        }
+        ::-webkit-scrollbar-thumb:hover {
+            background: rgba(0, 0, 0, 0.39);
+        }
+    </style>
 </head>
 <body class="hold-transition sidebar-mini" style="height:100vh !important">
 
 
 <div class="wrapper">
-        
