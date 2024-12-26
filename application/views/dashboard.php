@@ -28,7 +28,10 @@
 <aside class="main-sidebar sidebar-dark-primary elevation-4">
     <!-- Brand Logo -->
     <div href="#" class="brand-link d-flex justify-content-between align-items-center" style="height: 10%;">
-        <div class="brand-text font-weight-light">
+        <div>
+            <img src="https://thumbs.dreamstime.com/z/vector-illustration-avatar-dummy-logo-collection-image-icon-stock-isolated-object-set-symbol-web-137160339.jpg?w=768" alt="" style="width: 40px;height: 40px;object-fit: cover;border-radius: 50%;transform: translateX(10px);">
+        </div>
+        <div class="brand-text font-weight-light" style="text-transform: capitalize;font-weight: 900 !important;">
             <?= $this->session->userdata('first_name').' '.$this->session->userdata('last_name'); ?>
         </div>
         <div class="btn btn-danger d-flex justify-content-center align-items-center h-100" id="logOut">
