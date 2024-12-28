@@ -150,8 +150,8 @@ class Dashboard extends CI_Controller {
 
                 $html['action'] = '
                     <div class="d-flex justify-content-evenly align-items-center">
-                        <button class="btn btn-warning editContact" userid="'.$value['id'].'">Edit</button>
-                        <button class="btn btn-danger deleteContact" userid="'.$value['id'].'">Delete</button>
+                        <button class="btn btn-warning editContact" userid="'.$value['id'].'"><i class="fas fa-edit"></i></button>
+                        <button class="btn btn-danger deleteContact" userid="'.$value['id'].'"><i class="fa-solid fa-trash"></i></button>
                         <select class="btn btn-secondary selectGroup" name="groupDropdown" numberid="'.$value['id'].'" value="'.$value['group_id'].'" style="text-transform: capitalize;width: 115px; overflow: scroll;">';
 
                         $selected = false;
@@ -333,6 +333,67 @@ class Dashboard extends CI_Controller {
                 'status' => 0,
                 'message' => 'l_something_went_wrong'
             ], true);
+        }
+    }
+
+    public function deleteGroup(){
+
+        $post = $this->input->post();
+        $groupId = $post['groupId'];
+
+        $deleteStutas = $this->ProjectModel->deleteData('contact_groups', [
+            'id' => $groupId
+        ]);
+
+        if($deleteStutas){
+
+            $updateStatus = $this->ProjectModel->updateData('usernumbers', [
+                'group_id' => $groupId
+            ],[
+                'group_id' => NULL
+            ]);
+
+            if($updateStatus){
+                echo json_encode([
+                    'status' => 1,
+                    'message' => 'Delete Record successfully.'
+                ]);
+            }else{
+                echo json_encode([
+                    'status' => 1,
+                    'message' => 'l_number_is_not_update'
+                ]);
+            }
+        }else{
+            echo json_encode([
+                'status' => 0,
+                'message' => 'l_something_went_wrong'
+            ]);
+        }
+    }
+
+    public function renameGroup(){
+
+        $post = $this->input->post();
+        $groupId = $post['groupId'];
+        $groupName = $post['groupName'];
+
+        $updateStatus = $this->ProjectModel->updateData('contact_groups', [
+            'id' => $groupId
+        ],[
+            'name' => $groupName
+        ]);
+
+        if($updateStatus){
+            echo json_encode([
+                'status' => 1,
+                'message' => 'Delete Record successfully.'
+            ]);
+        }else{
+            echo json_encode([
+                'status' => 0,
+                'message' => 'l_something_went_wrong'
+            ]);
         }
     }
 }

@@ -58,7 +58,7 @@
             </div>
         </div>
 
-        <footer class="main-footer">
+        <footer class="main-footer" style="background: #343a40;">
             <p>Version 1.0</p>
         </footer>
     </div>
@@ -71,9 +71,72 @@
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
 
     <script>
-        $(document).ready(function () {
 
-            localStorage.removeItem('groupId');
+        localStorage.removeItem('groupId');
+
+        // Render table with dataTable.
+        let table = new DataTable('#contactNumberListing', {
+            "processing": true,
+            "serverSide": true,
+            "ajax": {
+                "url": "<?php echo base_url('Dashboard/contactListing'); ?>",
+                "type": "POST",
+                "data": function (d) {
+                    d.start = d.start;
+                    d.length = d.length;
+                    d.draw = d.draw;
+                    d.search_value = d.search.value;
+
+                    if (d.order && d.order.length > 0) {
+                        const orderColumnIndex = d.order[0].column;
+                        d.order_column = d.columns[orderColumnIndex].data;
+                        d.order_dir = d.order[0].dir;
+                    } else {
+                        d.order_column = 'id';
+                        d.order_dir = 'desc';
+                    }
+
+                    d.groupId = 0;
+                    if (localStorage.hasOwnProperty('groupId')) {
+                        d.groupId = localStorage.getItem('groupId');
+                    }
+                },
+                "dataSrc": function (json) {
+                    if (json.data.length === 0) {
+                        $('#contactNumberListing').find('tbody').html('<tr><td colspan="6" class="text-center" style="height:340px;">No data available in table.</td></tr>');
+                    } else {
+                        return json.data;
+                    }
+                    $('#contactNumberListing_processing').attr('style','display: none');
+                }
+            },
+            "columns": [
+                { "data": "id" },
+                { "data": "first_name" },
+                { "data": "last_name" },
+                { "data": "email" },
+                { "data": "number" },
+                { "data": "action" }
+            ],
+            "scrollX": true,
+            "scrollY": '350px',
+            "scroller": true,
+            "order": [[0, 'desc']],
+            "columnDefs": [
+                {
+                    "targets": '_all',
+                    "className": "text-center"
+                },
+                {
+                    "targets": [0,5],
+                    "orderable": false
+                }
+            ],
+            "responsive": true
+        });
+
+
+        $(document).ready(function () {
 
             $("#sidebar").hover(function () {
                 // On hover
@@ -83,66 +146,6 @@
                 // On hover out
                 $(this).removeClass("sidebar-expanded");
                 $(this).addClass("sidebar-collapsed");
-            });
-
-            // Render table with dataTable.
-            let table = new DataTable('#contactNumberListing', {
-                "processing": true,
-                "serverSide": true,
-                "ajax": {
-                    "url": "<?php echo base_url('Dashboard/contactListing'); ?>",
-                    "type": "POST",
-                    "data": function (d) {
-                        d.start = d.start;
-                        d.length = d.length;
-                        d.draw = d.draw;
-                        d.search_value = d.search.value;
-
-                        if (d.order && d.order.length > 0) {
-                            const orderColumnIndex = d.order[0].column;
-                            d.order_column = d.columns[orderColumnIndex].data;
-                            d.order_dir = d.order[0].dir;
-                        } else {
-                            d.order_column = 'id';
-                            d.order_dir = 'desc';
-                        }
-
-                        d.groupId = 0;
-                        if (localStorage.hasOwnProperty('groupId')) {
-                            d.groupId = localStorage.getItem('groupId');
-                        }
-                    },
-                    "dataSrc": function (json) {
-                        if (json.data.length === 0) {
-                            $('#contactNumberListing').find('tbody').html('<tr><td colspan="6" class="text-center" style="height:340px;">No data available in table.</td></tr>');
-                        } else {
-                            return json.data;
-                        }
-                        $('#contactNumberListing_processing').attr('style','display: none');
-                    }
-                },
-                "columns": [
-                    { "data": "id" },
-                    { "data": "first_name" },
-                    { "data": "last_name" },
-                    { "data": "email" },
-                    { "data": "number" },
-                    { "data": "action" }
-                ],
-                "scrollX": true,
-                "scrollY": '350px',
-                "scroller": true,
-                "order": [[0, 'desc']],
-                "columnDefs": [
-                    {
-                        "targets": '_all',
-                        "className": "text-center"
-                    },
-                    {
-                        "targets": [0,5],
-                        "orderable": false
-                    }
-                ]
             });
 
             // Add and Edit contact.
@@ -323,6 +326,9 @@
                         }
                         if(response.status === 1){
                             groupListing();
+                            $('#groupForm')[0].reset();
+                            $('#groupModal').modal('hide');
+                            $('.modal-backdrop').remove();
                         }
                     }
                 });
@@ -368,36 +374,124 @@
                 $(this).find('a').addClass('bg-primary');
             });
 
+            $(document).on({
+                mouseenter: function() {
+                    $(this).find('.options').removeClass('d-none');
+                    $('.groupName_' + $(this).attr('groupId')).css('width','55%');
+                },
+                mouseleave: function() {
+                    $(this).find('.options').addClass('d-none');
+                    $('.groupName_' + $(this).attr('groupId')).css('width','90%');
+                },
+            }, '#navbarMenu > li');
+
             groupListing();
-            function groupListing(){
+        });
+
+
+        function groupListing(){
+
+            $.ajax({
+                url  : '<?= base_url("Dashboard/groupListing") ?>',
+                type : 'POST',
+                success : function(response) {
+
+                    response = JSON.parse(response);
+
+                    if(response.status === 1){
+                        let html = '';
+                        $.each(response.data, function(key, value){
+
+                            html += `<li class="nav-item" groupId="${value.id}">
+                                            <a href="#" class="nav-link" style="position: relative;">
+                                                <i class="fa-solid fa-user-group"></i>
+                                                <p class="addInput_${value.id}" style="text-transform: capitalize; text-overflow: ellipsis; width: 13ch; overflow: clip;" >${value.name}</p>
+                                                <div class="d-none options" style="display: flex;position: absolute;top: 20%; right: 5%; z-index: 100;">
+                                                    <div class="btn btn-warning" onclick="renameGroup(${value.id}); event.stopPropagation();" style="display: flex; justify-content: center; align-items: center; width: 25px; height: 25px;font-size: 12px;">
+                                                        <i class="fas fa-edit"></i>
+                                                    </div>
+                                                    <div class="btn btn-danger ml-2" onclick="deleteGroup(${value.id}); event.stopPropagation();" style=" display: flex; justify-content: center; align-items: center; width: 25px; height: 25px;font-size: 12px;">
+                                                        <i class="fa-solid fa-trash"></i>
+                                                    </div>
+                                                </div>
+                                            </a>
+                                        </li>
+                                    `;
+                        });
+                        $('#navbarMenu').html(html);
+                        $('.gropModelCloseBtn').click();
+                    }
+                }
+            });
+        }
+
+        function renameGroup(groupId){
+
+            if(groupId > 0){
+
+                let name = $('.addInput_'+groupId).text();
+
+                $('.addInput_'+groupId).removeAttr('style');
+                $('.addInput_'+groupId).html(`
+                    <input type="text" class="form-control groupName groupName_${groupId}" groupId="${groupId}" value="${name}" style="width: 55%; height: 30px; padding-left: 8px;">
+                `);
+                
+            }
+        }
+
+        $(document).on('keyup', '.groupName', function(e){
+
+            let groupId = $(this).attr('groupId');
+            let groupName = $(this).val();
+
+            if(groupName !== ''){
+
+                clearTimeout($(this).data('timeout'));
+    
+                $(this).data('timeout', setTimeout(function() {
+
+                    $.ajax({
+                        url  : '<?= base_url("Dashboard/renameGroup") ?>',
+                        type : 'POST',
+                        data : {
+                            'groupId' : groupId,
+                            'groupName' : groupName
+                        },
+                        success : function(response) {
+                        }
+                    });
+
+                    if (e.which === 13) {
+                        $('.addInput_'+groupId).attr('style', 'text-transform: capitalize; text-overflow: ellipsis; width: 13ch; overflow: clip;');
+                        $('.addInput_'+groupId).html(groupName);
+                    }
+
+                }, 500));
+            }
+        });
+
+        function deleteGroup(groupId){
+
+            if(groupId > 0){
 
                 $.ajax({
-                    url  : '<?= base_url("Dashboard/groupListing") ?>',
+                    url  : '<?= base_url("Dashboard/deleteGroup") ?>',
                     type : 'POST',
-                    contentType: false,
-                    processData : false,
+                    data : {
+                        'groupId' : groupId,
+                    },
                     success : function(response) {
-
-                        response = JSON.parse(response);
-
-                        if(response.status === 1){
-                            let html = '';
-                            $.each(response.data, function(key, value){
-
-                                html += `<li class="nav-item" groupId="${value.id}">
-                                                <a href="#" class="nav-link">
-                                                    <i class="fa-solid fa-user-group"></i>
-                                                    <p style="text-transform: capitalize;" >${value.name}</p>
-                                                </a>
-                                            </li>
-                                        `;
-                            });
-                            $('#navbarMenu').html(html);
-                            $('.gropModelCloseBtn').click();
-                        }
+                        localStorage.removeItem('groupId');
+                        table.ajax.reload();
+                        groupListing();
                     }
                 });
             }
+        }
+
+        $(document).on('.modal', function(e) {
+            $(this).modal('hide');
+            alert('ahsdiuasd');
         });
     </script>
 </body>

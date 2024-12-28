@@ -1,10 +1,10 @@
 <!-- Navbar -->
-<nav class="main-header navbar navbar-expand navbar-light">
+<nav class="main-header navbar navbar-expand navbar-light" style="background: #343a40;">
     <!-- Hamburger Menu Icon -->
     <ul class="navbar-nav headerNav">
         <li class="nav-item">
             <a class="nav-link" data-widget="pushmenu" href="#" role="button">
-                <i class="fa-solid fa-bars" style="font-size: 25px;"></i>
+                <i class="fa-solid fa-bars" style="font-size: 25px;color: #fff;"></i>
             </a>
         </li>
         <li class="nav-item options">
@@ -29,7 +29,7 @@
     <!-- Brand Logo -->
     <div href="#" class="brand-link d-flex justify-content-between align-items-center" style="height: 10%;">
         <div>
-            <img src="https://thumbs.dreamstime.com/z/vector-illustration-avatar-dummy-logo-collection-image-icon-stock-isolated-object-set-symbol-web-137160339.jpg?w=768" alt="" style="width: 40px;height: 40px;object-fit: cover;border-radius: 50%;transform: translateX(10px);">
+            <img src="<?= $this->session->userdata('image') ?>" alt="" style="width: 40px;height: 40px;object-fit: cover;border-radius: 50%;transform: translateX(10px);">
         </div>
         <div class="brand-text font-weight-light" style="text-transform: capitalize;font-weight: 900 !important;">
             <?= $this->session->userdata('first_name').' '.$this->session->userdata('last_name'); ?>
@@ -57,7 +57,7 @@
 </aside>
 
 
-<div class="content-wrapper">
+<div class="content-wrapper" style="background: #222529;">
     <!-- <div class="content-header">
         <div class="container-fluid">
             <div class="row mb-2">
@@ -70,7 +70,7 @@
 
     <section class="content" style="width:97% !important; margin: auto; margin-top: 20px;">
         <form id="selectContact">
-            <table id="contactNumberListing" class="table-striped table-bordered">
+            <table id="contactNumberListing" class="table-striped table-bordered w-100" style="color: #fff;">
                 <thead>
                     <tr>
                         <th></th>

@@ -27,7 +27,7 @@
     <script src="https://cdn.datatables.net/2.1.8/js/dataTables.js"></script>
     <script src="https://cdn.datatables.net/2.1.8/js/dataTables.bootstrap4.js"></script>
 
-    <style>
+    <style> 
         body {
             background-color: #f8f9fa;
         }
@@ -54,6 +54,16 @@
         }
         .addNewBtn{
             line-height: 1px;
+        }
+        /* table */
+        /* .div.dt-scroll{
+            width: 101% !important;
+        } */
+        .dt-scroll-headInner{
+            width: 100% !important;
+        }
+        .dt-scroll-body{
+            width: 101% !important;
         }
     </style>
 

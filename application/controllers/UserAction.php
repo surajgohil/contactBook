@@ -51,8 +51,8 @@ class UserAction extends CI_Controller {
 
     public function signUp() {
 
-        $this->form_validation->set_rules('firstName', 'First Name', 'required|alpha_numeric_spaces|max_length[20]');
-        $this->form_validation->set_rules('lastName', 'Last Name', 'required|alpha_numeric_spaces|max_length[20]');
+        $this->form_validation->set_rules('firstName', 'First Name', 'required|max_length[20]');
+        $this->form_validation->set_rules('lastName', 'Last Name', 'required|max_length[20]');
         $this->form_validation->set_rules('number', 'Mobile Number', 'required|min_length[10]|max_length[50]');
         $this->form_validation->set_rules('email', 'Email', 'required|valid_email');
         $this->form_validation->set_rules('password', 'Password', 'required|min_length[6]|max_length[10]');
@@ -84,30 +84,37 @@ class UserAction extends CI_Controller {
             $password        = $post['password'];
             $confirmPassword = $post['confirmPassword'];
 
-            $data = [
-                'first_name' => $firstName,
-                'last_name'  => $lastName,
-                'email'      => $email,
-                'number'     => $number,
-                'password'   => password_hash($password, PASSWORD_BCRYPT)
-            ];
+            $existEmail = $this->ProjectModel->selectData(1, 'userdetails', 'email', ['email' => $email]);
+// echo '<pre>';print_r($existEmail);exit;
+            if(empty($existEmail) && empty($existEmail['email'])){
 
-            $this->ProjectModel->insertData('userdetails', $data);
-            $insertId = $this->db->insert_id();
-
-            if($insertId > 0){
-
-                $userData = $this->ProjectModel->selectData(
-                    1,
-                    'userDetails',
-                    'id, first_name, last_name, email, number',
-                    ['id' => $insertId]
-                );
-
-                // $this->session->set_userdata($userData);
-
-                // redirect('Dashboard/index');
-                echo json_encode(['status' => 1, 'message' => 'User registered successfully!']);   
+                $fileDetails = upload_and_resize_image('image', FCPATH . 'application/upload', [
+                    'width'  => 200,
+                    'height' => 200,
+                ]);
+    
+                $data = [
+                    'first_name' => $firstName,
+                    'last_name'  => $lastName,
+                    'email'      => $email,
+                    'number'     => $number,
+                    'password'   => password_hash($password, PASSWORD_BCRYPT),
+                    'image'      => $fileDetails['file_data']['file_name']
+                ];
+    
+                $this->ProjectModel->insertData('userdetails', $data);
+                $insertId = $this->db->insert_id();
+    
+                if($insertId > 0){
+                    echo json_encode(['status' => 1, 'message' => 'User registered successfully!']);
+                }
+            }else{
+                echo json_encode([
+                    'status' => 3,
+                    'data' => [
+                        'email' => 'this '.$existEmail['email'].' email is already exist.'
+                    ]
+                ]);
             }
         }
     }
@@ -137,6 +144,9 @@ class UserAction extends CI_Controller {
             $password = $post['password'];
 
             $userData = $this->ProjectModel->selectData(1,'userDetails','*',['email' => $email]);
+            // echo '<pre>';print_r($_SERVER);exit;
+            $defaultPath = $_SERVER['HTTP_ORIGIN'].'/contactBook/upload/';
+            $userData['image'] = (!empty($userData['image'])) ? $defaultPath.$userData['image'] : $defaultPath.'default-user-image.jpg';
 
             if(!empty($userData)){
 
@@ -148,6 +158,7 @@ class UserAction extends CI_Controller {
                         'last_name'  => $userData['last_name'],
                         'email'      => $userData['email'],
                         'number'     => $userData['number'],
+                        'image'      => $userData['image']
                     ]);
 
                     $responseArray = [

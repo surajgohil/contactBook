@@ -57,6 +57,10 @@
                     <label for="confirmPassword" class="form-label">Confirm Password</label>
                     <input type="password" class="form-control" id="confirmPassword" name="confirmPassword" placeholder="Confirm your password" required>
                 </div>
+                <div class="mb-3">
+                    <label for="image" class="form-label">Image</label>
+                    <input type="file" class="form-control" id="image" name="image" required>
+                </div>
                 <button type="submit" class="btn btn-primary w-100">Sign Up</button>
                 Have an account?
                 <a href="signIn" class="text-decoration-none">
@@ -74,6 +78,7 @@
 
     <script>
         $(document).ready(function () {
+
             $('#signupForm').on('submit', function(e) {
                 e.preventDefault();
 
