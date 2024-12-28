@@ -85,21 +85,21 @@ class UserAction extends CI_Controller {
             $confirmPassword = $post['confirmPassword'];
 
             $existEmail = $this->ProjectModel->selectData(1, 'userdetails', 'email', ['email' => $email]);
-// echo '<pre>';print_r($existEmail);exit;
+
             if(empty($existEmail) && empty($existEmail['email'])){
 
                 $fileDetails = upload_and_resize_image('image', FCPATH . 'application/upload', [
                     'width'  => 200,
                     'height' => 200,
                 ]);
-    
+
                 $data = [
                     'first_name' => $firstName,
                     'last_name'  => $lastName,
                     'email'      => $email,
                     'number'     => $number,
                     'password'   => password_hash($password, PASSWORD_BCRYPT),
-                    'image'      => $fileDetails['file_data']['file_name']
+                    'image'      => (!empty($fileDetails['file_data']['file_name'])) ? $fileDetails['file_data']['file_name'] : ''
                 ];
     
                 $this->ProjectModel->insertData('userdetails', $data);

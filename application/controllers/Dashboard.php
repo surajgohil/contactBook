@@ -24,8 +24,8 @@ class Dashboard extends CI_Controller {
 
     public function saveChanges(){
 
-        $this->form_validation->set_rules('firstName', 'First Name', 'required|alpha');
-        $this->form_validation->set_rules('lastName', 'Last Name', 'required|alpha');
+        $this->form_validation->set_rules('firstName', 'First Name', 'required');
+        $this->form_validation->set_rules('lastName', 'Last Name', 'required');
         $this->form_validation->set_rules('email', 'Email', 'valid_email');
         $this->form_validation->set_rules('number', 'Number', 'required|min_length[10]');
 

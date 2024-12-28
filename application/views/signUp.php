@@ -106,8 +106,6 @@
 
                         if(response.status === 3){
                             $.each(response.data, function(key, value) {
-                                console.log('key : ',key);
-                                console.log('value : ',value);
                                 $(`[name="${key}"]`).after(`<span class="displayError text-danger">${value}</span>`);
                             });
                         }
