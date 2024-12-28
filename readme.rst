@@ -19,7 +19,5 @@ Move contacts between groups.
 Watch the Project Preview:
 *******
 You can watch a demo of the **ContactBook** application in action by clicking the link below:
-
-
-
+[Click here to watch the demo video](previewVideo.mp4)
 
