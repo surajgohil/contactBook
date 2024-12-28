@@ -21,8 +21,5 @@ Watch the Project Preview:
 You can watch a demo of the **ContactBook** application in action by clicking the link below:
 
 
-### Watch the Project Preview:
-You can watch a demo of the **ContactBook** application in action by clicking the link below:
-[Watch the demo video](<Insert your video link here>)
 
 
