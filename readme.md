@@ -1,6 +1,7 @@
 ###################
 ContactBook - CodeIgniter 3
 ###################
+
 This is a simple ContactBook application developed using CodeIgniter 3, which allows users to manage their contacts and groups. The app provides functionality to:
 
 Add, Update, and Delete Contacts: Users can easily manage their contact information.
@@ -11,6 +12,7 @@ The application is built using the MVC architecture, with a focus on ease of use
 *******
 Features
 *******
+
 Add, Edit, and Remove Contacts.
 Group management (create, update, delete).
 Move contacts between groups.
@@ -18,6 +20,7 @@ Move contacts between groups.
 *******
 Watch the Project Preview:
 *******
+
 You can watch a demo of the **ContactBook** application in action by clicking the link below:
 [Click here to watch the demo video](previewVideo.mp4)
 
