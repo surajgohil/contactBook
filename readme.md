@@ -1,6 +1,4 @@
-###################
-ContactBook - CodeIgniter 3
-###################
+## ContactBook - CodeIgniter 3
 
 This is a simple ContactBook application developed using CodeIgniter 3, which allows users to manage their contacts and groups. The app provides functionality to:
 
