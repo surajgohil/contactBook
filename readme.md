@@ -34,3 +34,10 @@ This is a PHP-based contact book application.
   <source src="https://github.com/surajgohil/contactBook/raw/main/previewVideo.mp4" type="video/mp4">
   Your browser does not support the video tag.
 </video>
+# Contact Book
+
+This is a PHP-based contact book application.
+
+## Preview
+
+<iframe src="https://player.vimeo.com/video/YOUR_VIDEO_ID" width="640" height="360" frameborder="0" allow="autoplay; fullscreen" allowfullscreen></iframe>
