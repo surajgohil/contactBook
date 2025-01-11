@@ -31,6 +31,6 @@ This is a PHP-based contact book application.
 ## Preview
 
 <video width="320" height="240" controls>
-  <source src="https://raw.githubusercontent.com/surajgohil/contactBook/main/previewVideo.mp4" type="video/mp4">
+  <source src="https://github.com/surajgohil/contactBook/raw/main/previewVideo.mp4" type="video/mp4">
   Your browser does not support the video tag.
 </video>
