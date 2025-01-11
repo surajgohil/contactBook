@@ -24,20 +24,8 @@ Watch the Project Preview:
 You can watch a demo of the **ContactBook** application in action by clicking the link below:
 [Click here to watch the demo video](previewVideo.mp4)
 
-# Contact Book
-
-This is a PHP-based contact book application.
 
 ## Preview
 
-<video width="320" height="240" controls>
-  <source src="https://github.com/surajgohil/contactBook/raw/main/previewVideo.mp4" type="video/mp4">
-  Your browser does not support the video tag.
-</video>
-# Contact Book
+<iframe width="560" height="315" src="https://www.youtube.com/embed/7kjcAfa0zX8?si=SqvDgYj1YXq8-yXL" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
 
-This is a PHP-based contact book application.
-
-## Preview
-
-<iframe src="https://player.vimeo.com/video/YOUR_VIDEO_ID" width="640" height="360" frameborder="0" allow="autoplay; fullscreen" allowfullscreen></iframe>
