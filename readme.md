@@ -23,7 +23,8 @@ Watch the Project Preview:
 
 You can watch a demo of the **ContactBook** application in action by clicking the link below:
 [Click here to watch the demo video](previewVideo.mp4)
-<video controls width="600">
+
+<video controls>
   <source src="previewVideo.mp4" type="video/mp4">
   Your browser does not support the video tag.
 </video>
