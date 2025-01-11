@@ -24,7 +24,7 @@ Watch the Project Preview:
 You can watch a demo of the **ContactBook** application in action by clicking the link below:
 [Click here to watch the demo video](previewVideo.mp4)
 
-<video controls>
-  <source src="previewVideo.mp4" type="video/mp4">
+<video width="320" height="240" controls>
+  <source src="https://github.com/surajgohil/contactBook/blob/main/previewVideo.mp4" type="video/mp4">
   Your browser does not support the video tag.
 </video>
