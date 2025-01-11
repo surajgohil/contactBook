@@ -27,5 +27,5 @@ You can watch a demo of the **ContactBook** application in action by clicking th
 
 ## Preview
 
-<a src="https://www.youtube.com/embed/7kjcAfa0zX8?si=SqvDgYj1YXq8-yXL" target="_blank"></a>
+https://www.youtube.com/embed/7kjcAfa0zX8?si=SqvDgYj1YXq8-yXL
 
